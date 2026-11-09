@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Materias | Control académico</title><link rel="stylesheet" th:href="@{/css/academico.css}"></head>
+<body>
+<header class="topbar"><div class="container nav"><a class="brand" th:href="@{/materias}" th:text="${nombreProyecto}">Control Académico</a><span class="badge">ACTIVIDAD 02</span></div></header>
+<main class="container">
+  <section class="hero"><div><p class="eyebrow">ESPACIO ACADÉMICO</p><h1>Materias</h1><p>Consulta y organiza las asignaturas de tu programa.</p></div><a class="button" th:href="@{/materias/nueva}">+ Nueva materia</a></section>
+  <div class="notice" role="status" th:if="${confirmacion}" th:text="${confirmacion}"></div>
+  <section class="panel"><div class="panel-heading"><div><h2>Listado de materias</h2><p>Explora las asignaturas registradas.</p></div>
+    <form class="filter" method="get" th:action="@{/materias}"><label for="categoria">Categoría</label><select id="categoria" name="categoria"><option value="">Todas las categorías</option><option th:each="categoria : ${categorias}" th:value="${categoria}" th:text="${categoria}" th:selected="${categoria == categoriaSeleccionada}"></option></select><button class="button secondary" type="submit">Filtrar</button><a th:href="@{/materias}">Ver todas</a></form></div>
+    <div class="table-wrap" th:unless="${#lists.isEmpty(materias)}"><table><thead><tr><th>Materia</th><th>Docente</th><th>Categoría</th><th>Semestre</th><th></th></tr></thead><tbody><tr th:each="materia : ${materias}"><td class="strong" th:text="${materia.nombre}"></td><td th:text="${materia.docente}"></td><td><span class="tag" th:text="${materia.categoria}"></span></td><td th:text="${materia.semestre}"></td><td><a th:href="@{/materias/{id}(id=${materia.id})}">Ver detalle →</a></td></tr></tbody></table></div>
+    <div class="empty" th:if="${#lists.isEmpty(materias)}"><h3>No hay materias para mostrar</h3><p>Prueba otra categoría o agrega una nueva materia.</p><a th:href="@{/materias}">Mostrar todas</a></div>
+  </section><p class="footnote">Los datos se guardan solo durante la ejecución y se pierden al reiniciar.</p>
+</main></body></html>

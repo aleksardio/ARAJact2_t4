@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Detalle | Control académico</title><link rel="stylesheet" th:href="@{/css/academico.css}"></head>
+<body><header class="topbar"><div class="container nav"><a class="brand" th:href="@{/materias}" th:text="${nombreProyecto}">Control Académico</a><span class="badge">ACTIVIDAD 02</span></div></header>
+<main class="container narrow"><a class="back" th:href="@{/materias}">← Volver a materias</a><p class="eyebrow">DETALLE DE LA MATERIA</p><h1 th:text="${materia.nombre}"></h1><p>Información de la asignatura seleccionada.</p>
+<section class="panel form-panel"><dl class="details"><div><dt>Identificador</dt><dd th:text="${materia.id}"></dd></div><div><dt>Docente</dt><dd th:text="${materia.docente}"></dd></div><div><dt>Categoría</dt><dd th:text="${materia.categoria}"></dd></div><div><dt>Semestre</dt><dd th:text="${materia.semestre}"></dd></div></dl><a class="button secondary" th:href="@{/materias}">Volver al listado</a></section></main></body></html>

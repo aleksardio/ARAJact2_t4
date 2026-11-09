@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Nueva materia | Control académico</title><link rel="stylesheet" th:href="@{/css/academico.css}"></head>
+<body><header class="topbar"><div class="container nav"><a class="brand" th:href="@{/materias}" th:text="${nombreProyecto}">Control Académico</a><span class="badge">ACTIVIDAD 02</span></div></header>
+<main class="container narrow"><a class="back" th:href="@{/materias}">← Volver a materias</a><p class="eyebrow">REGISTRO ACADÉMICO</p><h1>Nueva materia</h1><p>Completa la información de la asignatura.</p>
+<section class="panel form-panel"><form method="post" th:action="@{/materias/guardar}" th:object="${materia}">
+  <div class="form-grid"><div class="field"><label for="nombre">Nombre de la materia</label><input id="nombre" th:field="*{nombre}" required><span class="error" th:errors="*{nombre}"></span></div>
+  <div class="field"><label for="docente">Docente</label><input id="docente" th:field="*{docente}" required><span class="error" th:errors="*{docente}"></span></div>
+  <div class="field"><label for="categoria">Categoría</label><input id="categoria" th:field="*{categoria}" required><span class="error" th:errors="*{categoria}"></span></div>
+  <div class="field"><label for="semestre">Semestre</label><input id="semestre" type="number" min="1" max="12" th:field="*{semestre}" required><span class="error" th:if="${#fields.hasErrors('semestre')}">Introduce un semestre válido entre 1 y 12.</span></div></div>
+  <div class="actions"><button class="button" type="submit">Guardar materia</button><a class="button secondary" th:href="@{/materias}">Cancelar</a></div>
+</form></section></main></body></html>
