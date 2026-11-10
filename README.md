@@ -102,6 +102,42 @@ Postman envía JSON a `POST /api/materias` y muestra la respuesta **201 Created*
 
 ![Petición POST en Postman y respuesta 201 Created](caps/cap1.png)
 
-## Antes de desplegar
+## Despliegue en DigitalOcean
 
-Comprobar la disponibilidad del puerto 8084 en el VPS, revisar la versión de Java instalada y la configuración de red, y planificar el despliegue sin alterar la Actividad 1 en 8082. Este proyecto no configura servicios del VPS ni persistencia.
+La aplicación está desplegada en un VPS Ubuntu de DigitalOcean, en el puerto **8084**:
+
+- Aplicación web: [http://204.48.17.197:8084/materias](http://204.48.17.197:8084/materias)
+- API REST: [http://204.48.17.197:8084/api/materias](http://204.48.17.197:8084/api/materias)
+
+El despliegue utiliza Java 17 y Maven para compilar la aplicación, SSH para administrar el servidor, SCP para transferir el JAR y systemd para ejecutar el servicio `spring-act2-araj`. La Actividad 1 utiliza el puerto **8082** y debe seguir funcionando sin modificaciones.
+
+En el VPS, se puede verificar el estado del servicio y consultar sus registros con:
+
+```bash
+sudo systemctl status spring-act2-araj
+sudo journalctl -u spring-act2-araj -n 100 --no-pager
+sudo journalctl -u spring-act2-araj -f
+```
+
+El último comando sigue los registros en tiempo real; se detiene con `Ctrl+C`.
+
+### Actualización del JAR
+
+Después de realizar cambios, desde Windows, en la carpeta del proyecto, compile y copie el JAR a un archivo temporal en el VPS. Sustituya `<usuario>` por el usuario SSH correspondiente:
+
+```powershell
+.\mvnw.cmd clean verify
+scp .\target\act2-0.0.1-SNAPSHOT.jar <usuario>@204.48.17.197:/tmp/act2-0.0.1-SNAPSHOT.jar
+ssh <usuario>@204.48.17.197
+```
+
+Una vez conectado al VPS, reemplace el JAR desplegado y reinicie únicamente el servicio de la Actividad 2:
+
+```bash
+sudo systemctl stop spring-act2-araj
+sudo cp /tmp/act2-0.0.1-SNAPSHOT.jar /opt/spring-act2-araj/act2-0.0.1-SNAPSHOT.jar
+sudo systemctl start spring-act2-araj
+sudo systemctl status spring-act2-araj
+```
+
+Las materias se almacenan en memoria, sin base de datos: los registros agregados se pierden al reiniciar la aplicación, incluida una actualización del JAR.
